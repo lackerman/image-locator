@@ -1,5 +1,5 @@
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-![example workflow](https://github.com/github/lackerman/image-relocator/workflows/main.yml/badge.svg)
+![main workflow](https://github.com/lackerman/image-relocator/actions/workflows/main.yaml/badge.svg)
 
 # `image-relocator`
 
