@@ -1,0 +1,14 @@
+run:
+  enable:
+    - staticcheck
+    - errcheck
+    - gosec
+    - gofmt
+    - golint
+    - gocyclo
+
+linters:
+  staticcheck:
+    confidence: high
+  gosec:
+    minimum_confidence: high

@@ -1,0 +1,43 @@
+name: Create image-relocator cask
+
+on: [push]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: macOS-latest
+    steps:
+      # Check out the code
+      - uses: actions/checkout@v3
+
+      # Set up Go
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 'stable'
+          setup-go: |
+            go get github.com/golangci/golangci-lint/cmd/golangci-lint
+            go get github.com/google/go-cmp/cmp
+            go get github.com/mattn/go-sqlite3
+            go get github.com/paulmach/go.geo
+            go get github.com/spf13/cobra
+
+      # Run the tests
+      - name: Test
+        run: go test -v -race ./...
+
+      # Build the program
+      - name: Build
+        run: go build -o image-relocator
+
+      # Create the Homebrew cask
+      - name: Create Homebrew cask
+        run: |
+          set -ex
+          mkdir -p "${TMPDIR}/cask"
+          cp image-relocator "${TMPDIR}/cask/image-relocator"
+          cd "${TMPDIR}/cask"
+          zip image-relocator.zip image-relocator
+          cd -
+          mv "${TMPDIR}/cask/image-relocator.zip" .
+          shasum -a 256 image-relocator.zip > image-relocator.sha256
